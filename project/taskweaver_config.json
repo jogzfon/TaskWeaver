@@ -1,5 +1,5 @@
 {
-  "llm.api_base": "https://api.openai.com/v1",
-  "llm.api_key": "",
-  "llm.model": "gpt-4-1106-preview"
+  "llm.api_type": "google_genai",
+  "llm.google_genai.api_key": "AIzaSyA0fCGtlAyxF_s_dBObsnL70xocI3GJlTE",
+  "llm.google_genai.model": "gemini-pro"
 }
