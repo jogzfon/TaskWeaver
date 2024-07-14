@@ -1,6 +1,7 @@
 name: sql_management_system
 enabled: true
 required: false
+plugin_only: true
 description: >-
   Pull data from a SQL database. 
   This plugin takes user requests when obtaining data from database is explicitly mentioned.
@@ -15,7 +16,7 @@ parameters:
     required: true
     description: >-
       This is the query in natural language that the user wants to get data from database.
-      If any specific column or value is mentioned, make sure to include them in the query, 
+      If any specific column or value except for passwords is mentioned, make sure to include them in the query, 
       exactly in the right format or form.
 
 returns:

@@ -29,6 +29,7 @@ class SQLManagementSystem(Plugin):
             {schema}
 
             Question: {question}
+            Database: C:\OJT WORK\TaskWeaver\project\sample_data\enrollment_system.db
             Please only write the sql query.
             Do not add any query on sensitive informations like passwords and emails.
             Do not add any comments or extra text.

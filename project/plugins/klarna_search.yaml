@@ -1,5 +1,5 @@
 name: klarna_search
-enabled: true
+enabled: false
 required: false
 plugin_only: true
 description: >-
