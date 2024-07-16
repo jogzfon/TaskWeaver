@@ -1,5 +1,5 @@
-name: sql_management_system
-enabled: false
+name: student_management
+enabled: true
 required: false
 description: >-
   Pull data from a SQL database. 
@@ -7,7 +7,7 @@ description: >-
   Otherwise, confirm with the user if they want to pull data from this database.
   The data from this database can only be used for sql management system.
 examples: |-
-  df, description = sql_management_system("pull data from student_details and student_scores table")
+  result = student_management("Get all data")
 
 parameters:
   - name: query
@@ -19,12 +19,9 @@ parameters:
       exactly in the right format or form.
 
 returns:
-  - name: df
-    type: pandas.DataFrame
-    description: This is the dataframe containing the data from the database.
-  - name: description
+  - name: result
     type: str
-    description: This is a string describing the data pulled from the database and the SQL query used.
+    description: This is a string result after the data pulled from the database and the SQL query used.
 
 configurations:
   api_type: gemini

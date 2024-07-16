@@ -1,0 +1,21 @@
+name: animal_planet
+enabled: true
+required: false
+description: >-
+  Use this whenever an animal is mentioned.
+  This is an animal planet which takes in an animal name
+examples:
+  name = animal_planet("Dog")
+
+parameters:
+  - name: name
+    type: str
+    required: true
+    description: >-
+      name of the animal
+
+returns:
+  - name: name
+    type: str
+    description: >-
+      name of the animal and description

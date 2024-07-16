@@ -12,7 +12,7 @@ from taskweaver.plugin import Plugin, register_plugin
 @register_plugin
 class SQLManagementSystem(Plugin):
     db = None
-
+    
     def __call__(self, query: str):
         api_type = self.config.get("api_type", "gemini")
         if api_type == "gemini":
@@ -29,7 +29,6 @@ class SQLManagementSystem(Plugin):
             {schema}
 
             Question: {question}
-            Database: C:\OJT WORK\TaskWeaver\project\sample_data\enrollment_system.db
             Please only write the sql query.
             Do not add any query on sensitive informations like passwords and emails.
             Do not add any comments or extra text.
@@ -51,10 +50,10 @@ class SQLManagementSystem(Plugin):
 
         sql = sql_response.invoke({"question": query})
 
-        result = self.db._execute(sql, fetch="all")
+        result = self.db._execute(sql, fetch="all") 
 
         df = pd.DataFrame(result)
-
+        
         if len(df) == 0:
             return df, (
                 f"I have generated a SQL query based on `{query}`.\nThe SQL query is {sql}.\n" f"The result is empty."
