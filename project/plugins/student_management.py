@@ -1,15 +1,13 @@
 import sqlite3
-import os
-from langchain.prompts import PromptTemplate
-from langchain.chains import LLMChain
+
 from taskweaver.plugin import Plugin, register_plugin
 
 @register_plugin
 class StudentManagement(Plugin):
-    def __call__(self, query: str):
-        try:          
+    def call(self, query: str):
+        try:
             # Try to establish a connection to the database
-            db_path = "C:\OJT WORK\TaskWeaver\project\sample_data\student_enrollment.db"
+            db_path = "C:\OJT WORK\TaskWeaver\project\sample_data\student_system.db"
             connection = sqlite3.connect(db_path)
             print("Connection to the database established successfully.")
         except sqlite3.Error as e:
@@ -22,7 +20,7 @@ class StudentManagement(Plugin):
             cursor = connection.cursor()
 
             # Print the names of all tables in the database
-            cursor.execute(query)
+            cursor.execute("SELECT name FROM sqlite_master WHERE type='table';")
             tables = cursor.fetchall()
             print("Tables in the database:")
             for table in tables:
@@ -53,8 +51,3 @@ class StudentManagement(Plugin):
             print("Connection to the database closed.")
 
         return result
-
-class Main():
-    if __name__ == "__main__":
-        resp = StudentManagement("SELECT name FROM sqlite_master WHERE type='table'")
-        print(resp)
