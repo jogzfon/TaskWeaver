@@ -1,0 +1,18 @@
+version: 0.1
+app_dir: ../project/
+config_var:
+  execution_service.kernel_mode: "local"
+dependencies: []
+verbose: True
+data_files:
+  - student_enrollment.db
+task_description: |-
+  The task is to detect anomaly on student_details and student_scores table from student_enrollment.db database
+  You should not include the column names in your initial request.
+  But if you are asked to provide the columns, please provide the following columns: 'ts' and 'val'.
+  Do not include any sensitive data in your output.
+scoring_points:
+  - score_point: "The data should be pulled from the sql database"
+    weight: 1
+  - score_point: "Agent should generate the sql_management_system function to pull the data"
+    weight: 1
