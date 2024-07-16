@@ -1,0 +1,9 @@
+name: sqlite_agent
+enabled: false
+required: false
+description: >-
+  Pull data from a SQLite database URL. 
+  This plugin takes user requests/prompts when obtaining data from database is explicitly mentioned.
+examples: |-
+  df, description = sqlite_agent()
+  
