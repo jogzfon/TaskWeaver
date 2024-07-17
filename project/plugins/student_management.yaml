@@ -27,4 +27,4 @@ configurations:
   api_type: gemini
   api_key: AIzaSyA0fCGtlAyxF_s_dBObsnL70xocI3GJlTE
   api_version: gemini-pro
-  sqlite_db_path: sqlite:///../../../../sample_data/student_system.db
+  sqlite_db_path: 

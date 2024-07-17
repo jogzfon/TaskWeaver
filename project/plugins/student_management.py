@@ -4,7 +4,7 @@ from taskweaver.plugin import Plugin, register_plugin
 
 @register_plugin
 class StudentManagement(Plugin):
-    def call(self, query: str):
+    def __call__(self, query: str):
         try:
             # Try to establish a connection to the database
             db_path = "C:\OJT WORK\TaskWeaver\project\sample_data\student_system.db"
@@ -13,7 +13,7 @@ class StudentManagement(Plugin):
         except sqlite3.Error as e:
             # Handle the error if the connection fails
             print(f"Failed to connect to the database at {db_path}. Error: {e}")
-            return []
+            return "Error connecting to database"
 
         try:
             # Create a cursor object
