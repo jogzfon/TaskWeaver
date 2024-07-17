@@ -7,24 +7,24 @@ description: >-
   Otherwise, confirm with the user if they want to pull data from this database.
   The data from this database can only be used for sql management system.
 examples: |-
-  result = student_management("Get all table names in the database")
+  result = student_management("SELECT first_name, last_name FROM student_account WHERE student_id = 9;")
 
 parameters:
   - name: query
     type: str
     required: true
     description: >-
-      This is the query in natural language that the user wants to get data from database.
+      This is the query in SQL that the user wants to get data from the database.
       If any specific column or value except for passwords is mentioned, make sure to include them in the query, 
       exactly in the right format or form.
 
 returns:
   - name: result
-    type: str
-    description: This is a string result after the data pulled from the database and the SQL query used.
+    type: pandas.DataFrame
+    description: This is a list result data after executing the SQL query.
 
 configurations:
   api_type: gemini
   api_key: AIzaSyA0fCGtlAyxF_s_dBObsnL70xocI3GJlTE
   api_version: gemini-pro
-  sqlite_db_path: 
+  sqlite_db_path: sqlite:///C:\OJT WORK\TaskWeaver\project\sample_data\student_system.db
