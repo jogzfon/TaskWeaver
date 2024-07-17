@@ -51,3 +51,7 @@ class StudentManagement(Plugin):
             print("Connection to the database closed.")
 
         return result
+    
+    # if __name__ == '__main__':
+    #     result = __call__("SELECT first_name, last_name FROM student_account where student_id = 9;")
+    #     print(result)

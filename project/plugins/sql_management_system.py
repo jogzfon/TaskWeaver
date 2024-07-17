@@ -64,3 +64,6 @@ class SQLManagementSystem(Plugin):
                 f"There are {len(df)} rows in the result.\n"
                 f"The first {min(5, len(df))} rows are:\n{df.head(min(5, len(df))).to_markdown()}"
             )
+    # if __name__ == '__main__':
+    #     result = __call__("SELECT first_name, last_name FROM student_account where student_id = 9;")
+    #     print(result)
