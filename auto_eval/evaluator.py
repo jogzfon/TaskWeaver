@@ -10,6 +10,7 @@ from langchain.load import dumps
 from langchain.schema.messages import AIMessage, HumanMessage, SystemMessage
 from langchain_community.chat_models import ChatOpenAI
 from langchain_openai import AzureChatOpenAI
+from langchain_google_genai import ChatGoogleGenerativeAI
 
 EVALUATOR_PROMPT_FILE_PATH = os.path.join(os.path.dirname(__file__), "evaluator_prompt.yaml")
 VIRTUAL_USER_PROMPT_FILE_PATH = os.path.join(os.path.dirname(__file__), "virtual_user_prompt.yaml")
@@ -38,7 +39,7 @@ def get_config(config: Dict[str, str], var_name: str) -> str:
         raise ValueError(f"Config value {var_name} is not found in evaluator_config.json or environment variables.")
 
 
-def config_llm(config: Dict[str, str]) -> Union[ChatOpenAI, AzureChatOpenAI]:
+def config_llm(config: Dict[str, str]) -> Union[ChatOpenAI, AzureChatOpenAI, ChatGoogleGenerativeAI]:
     api_type = get_config(config, "llm.api_type")
     if api_type == "azure":
         model = AzureChatOpenAI(
@@ -53,6 +54,13 @@ def config_llm(config: Dict[str, str]) -> Union[ChatOpenAI, AzureChatOpenAI]:
         model = ChatOpenAI(
             openai_api_key=get_config(config, "llm.api_key"),
             model_name=get_config(config, "llm.model"),
+            temperature=0,
+            verbose=True,
+        )
+    elif api_type == "gemini":
+        model = ChatGoogleGenerativeAI(
+            google_genai_api_key=get_config.get("llm.api_key"),
+            google_genai_api_version=get_config.get("llm.api_version"),
             temperature=0,
             verbose=True,
         )

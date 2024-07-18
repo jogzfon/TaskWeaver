@@ -1,5 +1,5 @@
 {
-  "llm.api_type": "azure or openai",
+  "llm.api_type": "azure or openai or gemini",
   "llm.api_base": "place your base url here",
   "llm.api_key": "place your key here",
   "llm.api_version": "place your version here",
