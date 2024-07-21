@@ -2,8 +2,9 @@ from taskweaver.code_interpreter.code_verification import code_snippet_verificat
 
 
 def test_import_allowed():
-    allowed_modules = ["pandas", "matplotlib"]
+    allowed_modules = ["pandas", "matplotlib", "mysql"]
     code_snippet = (
+        "import mysql.connector\n"
         "import numpy as np\n"
         "import matplotlib.pyplot as plt\n"
         "random_numbers = np.random.normal(size=100)\n"
@@ -42,8 +43,9 @@ def test_import_allowed():
 
 
 def test_import_blocked():
-    blocked_modules = ["numpy", "matplotlib"]
+    blocked_modules = ["numpy", "matplotlib", "mysql"]
     code_snippet = (
+        "import mysql.connector\n"
         "import numpy as np\n"
         "import matplotlib.pyplot as plt\n"
         "random_numbers = np.random.normal(size=100)\n"
@@ -83,9 +85,10 @@ def test_import_blocked():
 
 def test_import_allowed_and_blocked():
     try:
-        allowed_modules = ["numpy", "matplotlib"]
-        blocked_modules = ["numpy", "matplotlib"]
+        allowed_modules = ["numpy", "matplotlib", "mysql"]
+        blocked_modules = ["numpy", "matplotlib", "mysql"]
         code_snippet = (
+            "import mysql.connector\n"
             "import numpy as np\n"
             "import matplotlib.pyplot as plt\n"
             "random_numbers = np.random.normal(size=100)\n"
@@ -226,6 +229,7 @@ def test_allow_variable():
 def test_magic_code():
     code_snippet = (
         "!pip install pandas\n"
+        "import mysql.connector\n"
         "import numpy as np\n"
         "import matplotlib.pyplot as plt\n"
         "random_numbers = np.random.normal(size=100)\n"

@@ -1,8 +1,8 @@
-from student_management import StudentManagement
+from student_manager_tester import TestSystem
 
 if __name__ == '__main__':
-    sm = StudentManagement()
-    result = sm("SELECT name FROM sqlite_master WHERE type='table';")
+    sm = TestSystem()
+    result = sm("SELECT first_name, last_name FROM student_account WHERE student_id = 9;")
     print(result)
     
     
