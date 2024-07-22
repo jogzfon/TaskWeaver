@@ -6,6 +6,15 @@ TaskWeaver is a code-first agent framework for seamlessly planning and executing
 
 For this demo, **TaskWeaver** is utilized to query a sample database specifically a *Student Information System* database. This will showcase the implementation  and use cases of plugins from the framework, TaskWeaver. The LLM (Large Language Model) used for this project is Gemini 1.5 Flash. This model offers a limited amount of tokens per session given that the account used is only a free tier.
 
+**student_system.db** comprises of two tables: *student_account* and *student_school_status*.
+
+The *student_account* table showcases the plugin's ability to censor sensitive information, as this table comprises student account information that the public should not be able to access.
+
+The *student_school_status* table showcases the plugin's ability to retrieve specific student information. 
+
+
+
+
 ## Useful Links 🔗
 
 - **Quick Start:** Quick start TaskWeaver with [README](https://github.com/microsoft/TaskWeaver?tab=readme-ov-file#-quick-start) ✨
