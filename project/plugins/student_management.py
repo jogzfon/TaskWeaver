@@ -1,57 +1,96 @@
-import sqlite3
-
+import pandas as pd
+import mysql.connector
+from mysql.connector import Error
 from taskweaver.plugin import Plugin, register_plugin
 
 @register_plugin
 class StudentManagement(Plugin):
     def __call__(self, query: str):
+        connection = None
+        cursor = None
+        
         try:
-            # Try to establish a connection to the database
-            db_path = "C:\OJT WORK\TaskWeaver\project\sample_data\student_system.db"
-            connection = sqlite3.connect(db_path)
-            print("Connection to the database established successfully.")
-        except sqlite3.Error as e:
-            # Handle the error if the connection fails
-            print(f"Failed to connect to the database at {db_path}. Error: {e}")
-            return "Error connecting to database"
-
-        try:
-            # Create a cursor object
-            cursor = connection.cursor()
-
-            # Print the names of all tables in the database
-            cursor.execute("SELECT name FROM sqlite_master WHERE type='table';")
-            tables = cursor.fetchall()
-            print("Tables in the database:")
-            for table in tables:
-                print(table[0])
-
-            # If no tables are found, log a message
-            if not tables:
-                print("No tables found in the database.")
-
-            # Print the schema for each table
-            for table in tables:
-                print(f"\nSchema for table {table[0]}:")
-                cursor.execute(f"PRAGMA table_info({table[0]});")
-                columns = cursor.fetchall()
-                for column in columns:
-                    print(f"Column: {column[1]}, Type: {column[2]}, Not Null: {bool(column[3])}, Default: {column[4]}")
-
-            # Execute the provided query
-            cursor.execute(query)
-            result = cursor.fetchall()
-        except sqlite3.Error as e:
-            # Handle any errors that occur during query execution
-            print(f"Query execution failed. Error: {e}")
-            result = []
+            connection = mysql.connector.connect(
+                host='localhost',
+                port=3306,
+                database='student_system',
+                user='root',
+                password=''
+            )
+            
+            if connection.is_connected():            
+                cursor = connection.cursor(dictionary=True)
+                cursor.execute(query)
+                result = cursor.fetchall()
+                
+                if result:
+                    df = pd.DataFrame(result)
+                    print("DataFrame created successfully.")
+                else:
+                    df = pd.DataFrame()
+                    print("Query returned no results.")
+                
+                return df
+        
+        except mysql.connector.Error as e:
+            print(f"MySQL Error: {e}")
+            return None
+        
+        except Exception as e:
+            print(f"An unexpected error occurred: {e}")
+            return None
+        
         finally:
-            # Ensure the connection is closed
-            connection.close()
+            if cursor:
+                cursor.close()
+            if connection and connection.is_connected():
+                connection.close()
             print("Connection to the database closed.")
+        
+# @register_plugin
+# class StudentManagement(Plugin):
+#     def __call__(self, query: str):
+#         df = pd.DataFrame()
+#         db = SQLDatabase.from_uri("sqlite:///C:/OJT WORK/TaskWeaver/project/sample_data/student_system.db")
+#         result = db.run(query, fetch="cursor")
+#         df = pd.DataFrame(result)
+#         return df
 
-        return result
-    
-    # if __name__ == '__main__':
-    #     result = __call__("SELECT first_name, last_name FROM student_account where student_id = 9;")
-    #     print(result)
+# import sqlalchemy
+# from sqlalchemy import create_engine, text
+# from sqlalchemy.orm import sessionmaker
+# import pandas as pd
+# from taskweaver.plugin import Plugin, register_plugin
+
+
+# @register_plugin
+# class StudentManagement(Plugin):
+#     def __call__(self, query: str):
+#         db_path = r"C:\OJT WORK\TaskWeaver\project\sample_data\student_system.db"
+#         engine = create_engine(f"sqlite:///{db_path}")
+#         Session = sessionmaker(bind=engine)
+#         try:
+#             session = Session()
+#             print("Connection to the database established successfully.")
+#         except sqlalchemy.exc.SQLAlchemyError as e:
+#             print(f"Failed to connect to the database at {db_path}. Error: {e}")
+#             return "Error connecting to database"
+        
+#         try:
+#             result = session.execute(text(query))
+#             df = pd.DataFrame(result)
+#             # if result.returns_rows:
+#             #     result_string = '\n'.join([str(row) for row in result])
+#             # else:
+#             #     result_string = "No results found."
+            
+#             session.commit()
+#         except sqlalchemy.exc.SQLAlchemyError as e:
+#             print(f"Query execution failed. Error: {e}")
+#             result_string = "Error executing query"
+#         finally:
+#             session.close()
+#             print("Connection to the database closed.")
+        
+#         return df
+

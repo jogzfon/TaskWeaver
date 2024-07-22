@@ -1,0 +1,18 @@
+version: 0.1
+app_dir: ../project/
+config_var:
+  execution_service.kernel_mode: "local"
+  code_generator.enable_auto_plugin_selection: true
+  code_generator.auto_plugin_selection_topk: 1
+pre_command: ["cd ../scripts;python -m plugin_mgt --refresh"]
+verbose: true
+dependencies: []
+data_files:
+  - student_system.db
+task_description: |-
+  The task is to execute queries from student_system.db sql database.
+  You should not include the column names in your initial request.
+  But if you are asked to provide the columns to detect the anomaly, please provide the following columns: 'ts' and 'val'.
+scoring_points:
+  - score_point: "Agent should use the pre-defined student_management function in the python code to get the data"
+    weight: 1

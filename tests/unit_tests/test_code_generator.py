@@ -295,6 +295,7 @@ def test_compose_prompt_with_plugin():
     )
 
     assert messages[1]["role"] == "user"
+    assert "student_management" in messages[1]["content"]
     assert "sql_pull_data" in messages[1]["content"]
     assert "anomaly_detection" in messages[1]["content"]
     assert "klarna_search" in messages[1]["content"]
@@ -469,6 +470,7 @@ def test_compose_prompt_with_not_plugin_only():
     )
 
     assert len(code_generator.plugin_pool) == 4
+    assert "student_management" in messages[16]["content"]
     assert "anomaly_detection" in messages[16]["content"]
     assert "klarna_search" in messages[16]["content"]
     assert "paper_summary" in messages[16]["content"]
