@@ -64,6 +64,10 @@ class StudentManagement(Plugin):
                 sql_response = RunnableMap(inputs) | prompt | model | StrOutputParser()
 
                 sql = sql_response.invoke({"question": query})
+                # Check for sensitive information in the generated SQL query
+                sensitive_keywords = ["password", "email"]
+                if any(keyword in sql.lower() for keyword in sensitive_keywords):
+                    return pd.DataFrame(), "The generated SQL query contains sensitive information and will not be executed."
 
                  # Check for non-read-only queries in the generated SQL query using regex
                 non_readonly_keywords = r"\b(insert|update|delete|create|alter|drop)\b"
@@ -71,10 +75,12 @@ class StudentManagement(Plugin):
                     return pd.DataFrame(), "The generated SQL query is not read-only and will not be executed."
                 
                 cursor.execute(sql)
+                # cursor.commit()
                 result = cursor.fetchall()
                 
                 if result:
                     df = pd.DataFrame(result)
+                    df.index = range(1, len(df) + 1)  # Set the index to start at 1
                     print("DataFrame created successfully.")
                 else:
                     df = pd.DataFrame()
@@ -88,7 +94,7 @@ class StudentManagement(Plugin):
                     return df, (
                         f"I have generated a SQL query based on `{query}`.\nThe SQL query is {sql}.\n"
                         f"There are {len(df)} rows in the result.\n"
-                        f"The first {min(5, len(df))} rows are:\n{df.head(min(5, len(df))).to_markdown()}"
+                        f"The rows are:\n{df.to_markdown()}"
                     )
         
         except mysql.connector.Error as e:

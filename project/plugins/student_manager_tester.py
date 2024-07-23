@@ -78,6 +78,7 @@ class TestSystem:
                 
                 if result:
                     df = pd.DataFrame(result)
+                    df.index = range(1, len(df) + 1)  # Set the index to start at 1
                     print("DataFrame created successfully.")
                 else:
                     df = pd.DataFrame()
@@ -91,7 +92,7 @@ class TestSystem:
                     return df, (
                         f"I have generated a SQL query based on `{query}`.\nThe SQL query is {sql}.\n"
                         f"There are {len(df)} rows in the result.\n"
-                        f"The first {min(5, len(df))} rows are:\n{df.head(min(5, len(df))).to_markdown()}"
+                        f"The rows are:\n{df.to_markdown()}"
                     )
         
         except mysql.connector.Error as e:
