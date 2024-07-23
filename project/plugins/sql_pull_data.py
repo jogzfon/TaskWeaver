@@ -1,11 +1,11 @@
 from operator import itemgetter
 
 import pandas as pd
-from langchain.chat_models import AzureChatOpenAI, ChatOpenAI, GroqChatOpenAI
+from langchain.chat_models import AzureChatOpenAI, ChatOpenAI, GroqChatOpenAI, GeminiChatOpenAI
 from langchain.prompts import ChatPromptTemplate
 from langchain.schema.output_parser import StrOutputParser
 from langchain.schema.runnable import RunnableLambda, RunnableMap
-from langchain.utilities import SQLDatabase
+from langchain_community.utilities.sql_database import SQLDatabase
 
 from taskweaver.plugin import Plugin, register_plugin
 
@@ -34,6 +34,13 @@ class SqlPullData(Plugin):
             )
         elif api_type == "groq":
             model = GroqChatOpenAI(
+                openai_api_key=self.config.get("api_key"),
+                model_name=self.config.get("deployment_name"),
+                temperature=0,
+                verbose=True,
+            )
+        elif api_type == "gemini":
+            model = GeminiChatOpenAI(
                 openai_api_key=self.config.get("api_key"),
                 model_name=self.config.get("deployment_name"),
                 temperature=0,

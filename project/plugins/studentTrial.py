@@ -1,8 +1,10 @@
 from student_manager_tester import TestSystem
+import pandas as pd
 
 if __name__ == '__main__':
-    sm = TestSystem()
-    result = sm("SELECT first_name, last_name FROM student_account WHERE student_id = 9;")
-    print(result)
-    
-    
+    # Make the query
+    inp = "x"
+    while inp != "exit":
+        inp = input()
+        result, description = TestSystem()(inp)
+        print(description)

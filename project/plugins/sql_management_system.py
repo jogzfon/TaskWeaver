@@ -5,7 +5,7 @@ from langchain.chat_models import ChatGoogleGenerativeAI
 from langchain.prompts import ChatPromptTemplate
 from langchain.schema.output_parser import StrOutputParser
 from langchain.schema.runnable import RunnableLambda, RunnableMap
-from langchain.utilities import SQLDatabase
+from langchain_community.utilities.sql_database import SQLDatabase
 
 from taskweaver.plugin import Plugin, register_plugin
 

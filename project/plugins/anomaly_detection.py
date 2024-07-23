@@ -1,11 +1,7 @@
 import pandas as pd
 from pandas.api.types import is_numeric_dtype
 
-from taskweaver.plugin import Plugin, register_plugin
-
-
-@register_plugin
-class AnomalyDetectionPlugin(Plugin):
+class AnomalyDetectionPlugin():
     def __call__(self, df: pd.DataFrame, time_col_name: str, value_col_name: str):
 
         """

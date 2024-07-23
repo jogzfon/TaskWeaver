@@ -7,8 +7,8 @@ description: >-
   Otherwise, confirm with the user if they want to pull data from this database.
   The data from this database can only be used for sql management system.
 examples: |-
-  result = student_management("SELECT first_name, last_name FROM student_account WHERE student_id = 9;")
-  print(result)
+  result, description = student_management("SELECT first_name, last_name FROM student_account WHERE student_id = 9;")
+  print(description)
 
 parameters:
   - name: query
@@ -23,9 +23,7 @@ returns:
   - name: result
     type: pandas.DataFrame
     description: This is a list result data after executing the SQL query.
+  - name: description
+    type: str
+    description: This is a string describing the data pulled from the database and the SQL query used.
 
-configurations:
-  api_type: gemini
-  api_key: AIzaSyA0fCGtlAyxF_s_dBObsnL70xocI3GJlTE
-  api_version: gemini-pro
-  sqlite_db_path: 
