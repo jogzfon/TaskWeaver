@@ -1,3 +1,4 @@
+import re
 import mysql.connector
 import pandas as pd
 from mysql.connector import Error
@@ -62,10 +63,10 @@ class TestSystem:
 
                 sql = sql_response.invoke({"question": query})
 
-                 # Check for sensitive information in the generated SQL query
-                sensitive_keywords = ["password", "email"]
-                if any(keyword in sql.lower() for keyword in sensitive_keywords):
-                    return pd.DataFrame(), "The generated SQL query contains sensitive information and will not be executed."
+                 # Check for non-read-only queries in the generated SQL query using regex
+                non_readonly_keywords = r"\b(insert|update|delete|create|alter|drop)\b"
+                if re.search(non_readonly_keywords, sql, re.IGNORECASE):
+                    return pd.DataFrame(), "The generated SQL query is not read-only and will not be executed."
                 
                 cursor.execute(sql)
                 result = cursor.fetchall()
