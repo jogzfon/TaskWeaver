@@ -62,6 +62,10 @@ class TestSystem:
                 sql_response = RunnableMap(inputs) | prompt | model | StrOutputParser()
 
                 sql = sql_response.invoke({"question": query})
+                # Check for sensitive information in the generated SQL query
+                sensitive_keywords = ["password", "email"]
+                if any(keyword in sql.lower() for keyword in sensitive_keywords):
+                    return pd.DataFrame(), "The generated SQL query contains sensitive information and will not be executed."
 
                  # Check for non-read-only queries in the generated SQL query using regex
                 non_readonly_keywords = r"\b(insert|update|delete|create|alter|drop)\b"
@@ -69,6 +73,7 @@ class TestSystem:
                     return pd.DataFrame(), "The generated SQL query is not read-only and will not be executed."
                 
                 cursor.execute(sql)
+                # cursor.commit()
                 result = cursor.fetchall()
                 
                 if result:
