@@ -37,3 +37,8 @@ def test_plugin_selector():
     selected_plugins = plugin_selector.plugin_select(query2, top_k=3)
 
     assert any([p.name == "paper_summary" for p in selected_plugins])
+    
+    # Add test for StudentManagement
+    query3 = "get data from student database"
+    selected_plugins = plugin_selector.plugin_select(query3, top_k=3)
+    assert any([p.name == "student_management" for p in selected_plugins])

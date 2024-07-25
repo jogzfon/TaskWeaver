@@ -20,7 +20,7 @@ def test_load_plugin_yaml():
 
     plugin_registry = app_injector.get(PluginRegistry)
 
-    assert len(plugin_registry.registry) == 4
+    assert len(plugin_registry.registry) == 5  # Adjust count to include StudentManagement
     assert "anomaly_detection" in plugin_registry.registry
     assert plugin_registry.registry["anomaly_detection"].spec.name == "anomaly_detection"
     assert plugin_registry.registry["anomaly_detection"].spec.description.startswith(
@@ -45,7 +45,26 @@ def test_load_plugin_yaml():
         "DataFrame with a newly-added column "
         '"Is_Anomaly" containing the anomaly detection result.'
     )
+    # Add assertions for StudentManagement
+    assert "student_management" in plugin_registry.registry
+    assert plugin_registry.registry["student_management"].spec.name == "student_management"
+    assert plugin_registry.registry["student_management"].spec.description.startswith(
+        "student_management function to manage student data"
+    )
+    assert plugin_registry.registry["student_management"].impl == "student_management"
+    assert len(plugin_registry.registry["student_management"].spec.args) == 1
+    assert plugin_registry.registry["student_management"].spec.args[0].name == "query"
+    assert plugin_registry.registry["student_management"].spec.args[0].type == "str"
+    assert plugin_registry.registry["student_management"].spec.args[0].description == "the query to be executed"
+    assert plugin_registry.registry["student_management"].spec.args[0].required == True
 
+    assert len(plugin_registry.registry["student_management"].spec.returns) == 2
+    assert plugin_registry.registry["student_management"].spec.returns[0].name == "df"
+    assert plugin_registry.registry["student_management"].spec.returns[0].type == "DataFrame"
+    assert plugin_registry.registry["student_management"].spec.returns[0].description == "This DataFrame contains the query results."
+    assert plugin_registry.registry["student_management"].spec.returns[1].name == "description"
+    assert plugin_registry.registry["student_management"].spec.returns[1].type == "str"
+    assert plugin_registry.registry["student_management"].spec.returns[1].description == "This is a string describing the query results."
 
 def test_plugin_format_prompt():
     app_injector = Injector(
@@ -110,5 +129,19 @@ def test_plugin_format_prompt():
         "# df: This DataFrame contains the search results.\n"
         "DataFrame,\n"
         "# description: This is a string describing the anomaly detection results.\n"
+        "str]:...\n"
+    )
+    # Add assertion for StudentManagement
+    assert plugin_registry.registry["student_management"].format_prompt() == (
+        "# student_management function to manage student data.\n"
+        "# Examples:\n"
+        '# df, description = student_management("get all student names")\n'
+        '# df, description = student_management("get the grades of student with id 1")\n'
+        "def student_management(\n"
+        "# the query to be executed\n"
+        "query: str) -> Tuple[\n"
+        "# df: This DataFrame contains the query results.\n"
+        "DataFrame,\n"
+        "# description: This is a string describing the query results.\n"
         "str]:...\n"
     )

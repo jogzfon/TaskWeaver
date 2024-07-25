@@ -54,3 +54,8 @@ def test_plugin_pool():
 
     selected_plugin_pool.filter_unused_plugins("")
     assert len(selected_plugin_pool) == 2
+
+    # Add test for StudentManagement
+    selected_plugin_pool.add_selected_plugins(plugins[-1:])  # Assuming StudentManagement is the last plugin added
+    assert len(selected_plugin_pool) == 3
+    assert any(plugin.name == "student_management" for plugin in selected_plugin_pool.get_plugins())

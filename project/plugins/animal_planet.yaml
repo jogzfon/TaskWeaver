@@ -1,5 +1,5 @@
 name: animal_planet
-enabled: true
+enabled: false
 required: false
 description: >-
   Use this whenever an animal is mentioned.
