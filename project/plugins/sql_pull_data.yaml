@@ -28,8 +28,8 @@ returns:
 
 configurations:
   api_type: openai
-  api_base:
-  api_key:
-  api_version:
-  deployment_name:
+  api_base: 
+  api_key: sk-proj-CJlPobih142REd2ntVo5T3BlbkFJWtqE4ylEC6lnsH08gulm
+  api_version: 
+  deployment_name: gpt-4o-mini
   sqlite_db_path: sqlite:///../../../../sample_data/anomaly_detection.db
