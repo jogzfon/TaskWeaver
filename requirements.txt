@@ -25,6 +25,3 @@ vcrpy>=5.0.0
 colorama>=0.4.6
 
 pymysql>=1.0.2
-
-
-

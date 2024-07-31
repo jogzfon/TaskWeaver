@@ -1,25 +1,30 @@
-import re
-import mysql.connector
-import pandas as pd
-from mysql.connector import Error
-from operator import itemgetter
-from langchain.chat_models import ChatOpenAI
-from langchain.prompts import ChatPromptTemplate
-from langchain.schema.output_parser import StrOutputParser
-from langchain.schema.runnable import RunnableLambda, RunnableMap
 from taskweaver.plugin import Plugin, register_plugin
 
 @register_plugin
-class StudentManagement(Plugin):
+class DatabaseManagerPlugin(Plugin):
     def __call__(self, query: str):
+        try:
+            import re
+            import pandas as pd
+            import mysql.connector
+            from mysql.connector import Error
+            from operator import itemgetter
+            from langchain_google_genai import GoogleGenerativeAI
+            from langchain.prompts import ChatPromptTemplate
+            from langchain.schema.output_parser import StrOutputParser
+            from langchain.schema.runnable import RunnableLambda, RunnableMap
+        except ImportError as e:
+            raise ImportError("Could not load imports.") from e
+        
         connection = None
         cursor = None
         
         try:
-            model = ChatOpenAI(
-                openai_api_key=self.config.get("api_key"),
-                model_name=self.config.get("deployment_name"),
+            model = GoogleGenerativeAI(
+                model="gemini-pro",
+                google_api_key="AIzaSyA0fCGtlAyxF_s_dBObsnL70xocI3GJlTE",
                 temperature=0,
+                top_p=1,
                 verbose=True,
             )
             
@@ -35,11 +40,11 @@ class StudentManagement(Plugin):
             prompt = ChatPromptTemplate.from_template(template)
             
             connection = mysql.connector.connect(
-                host=self.config.get("db_host"),
-                port=self.config.get("db_port"),
-                database=self.config.get("db_database"),
-                user=self.config.get("db_user"),
-                password=self.config.get("db_password")
+                host="localhost",
+                port=3306,
+                database="biblio_system",
+                user="root",
+                password=""
             )
             
             if connection.is_connected():            
@@ -66,15 +71,14 @@ class StudentManagement(Plugin):
                 # Check for sensitive information in the generated SQL query
                 sensitive_keywords = ["password", "email"]
                 if any(keyword in sql.lower() for keyword in sensitive_keywords):
-                    return pd.DataFrame(), "The generated SQL query contains sensitive information and will not be executed."
+                    return "The generated SQL query contains sensitive information and will not be executed."
 
                  # Check for non-read-only queries in the generated SQL query using regex
                 non_readonly_keywords = r"\b(insert|update|delete|create|alter|drop)\b"
                 if re.search(non_readonly_keywords, sql, re.IGNORECASE):
-                    return pd.DataFrame(), "The generated SQL query is not read-only and will not be executed."
+                    return "The generated SQL query is not read-only and will not be executed."
                 
                 cursor.execute(sql)
-                # cursor.commit()
                 result = cursor.fetchall()
                 
                 if result:
@@ -83,28 +87,23 @@ class StudentManagement(Plugin):
                 else:
                     df = pd.DataFrame()
                 
-                if len(df) == 0:
-                    return {
-                        "dataframe": df, 
-                        "description": (f"I have generated a SQL query based on `{query}`.\nThe SQL query is {sql}.\n" 
-                        f"The result is empty.")
-                    }
-                else:
-                    return {
-                        "dataframe": df, 
-                        "description": (f"I have generated a SQL query based on `{query}`.\nThe SQL query is {sql}.\n"
-                        f"There are {len(df)} rows in the result.\n"
-                        f"The rows are:\n{df.to_markdown()}")
-                    }
+                return "Here is the result of the query {query}: " + df.to_string()
         
-        except mysql.connector.Error as e:
-            return pd.DataFrame(), f"MySQL Error: {e}"
+        except Error as e:
+            return f"MySQL Error: {e}"
 
         except Exception as e:
-            return pd.DataFrame(), f"An unexpected error occurred: {e}"
+            return f"An unexpected error occurred: {e}"
         
         finally:
             if cursor:
                 cursor.close()
             if connection and connection.is_connected():
                 connection.close()
+    
+# # Usage example:
+# if __name__ == "__main__":
+#     query = "Give me 5 student names"
+#     sq = DatabaseControlPlugin()
+#     description = sq(query)
+#     print(description)

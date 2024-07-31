@@ -1,5 +1,5 @@
 name: sql_connect
-enabled: true
+enabled: false
 required: false
 description: >-
   Use this whenever connect is mentioned

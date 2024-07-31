@@ -1,0 +1,34 @@
+name: database_manager
+enabled: true
+required: false
+plugin_only: true
+description: This plugin processes database queries using the TestSystem class.
+examples: |-
+  result = database_manager("Give me the firstname and lastname of the first 5 rows")
+
+parameters:
+  - name: query
+    type: str
+    required: true
+    description: >-
+      The database query or command to be executed.
+
+returns:
+  - name: result
+    type: str
+    description: >-
+      The result of the query execution, converted to a string. For SELECT queries, this will be a string representation of the resulting data. For other queries, it will be a status message or error description.
+
+notes: |-
+  - This plugin uses the Google Generative AI model to convert natural language queries into SQL.
+  - It connects to a MySQL database named 'biblio_system'. Ensure the database is accessible and the connection details are correct.
+  - The plugin includes safety checks to prevent execution of queries involving sensitive information or non-read-only operations.
+  - Results are returned as a string, which can be further processed or converted to other formats as needed.
+  - Error messages and query details are printed to the console for debugging purposes.
+
+dependencies:
+  - taskweaver
+  - pandas
+  - mysql-connector-python
+  - langchain
+  - langchain_google_genai

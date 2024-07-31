@@ -1,26 +1,38 @@
 name: student_management
-enabled: true
+enabled: false
 required: false
 description: >-
-  Get data from a SQL database. 
-  This plugin takes user requests when obtaining data from database is explicitly mentioned.
-  Otherwise, confirm with the user if they want to pull data from this database.
-  The data from this database can only be used for student management system.
-examples: |-
-  df, description = student_management("Give me the first name and last name of the student with an id of 9")
+  The StudentManagement connects to the SQL database.
+  This plugin takes user query when obtaining data from the database.
+  It retrieves and returns the dataframe and its description. 
 
 parameters:
   - name: query
     type: str
     required: true
     description: >-
+      The query which the user inputs and wants to do with the database.
       This is the natural language query that the user wants to get data from the database.
       The plugin will convert this into an appropriate SQL query.
 
 returns:
-  - name: df
-    type: pandas.DataFrame
-    description: This is the result data after executing the SQL query, returned as a pandas DataFrame.
-  - name: description
-    type: str
-    description: This is a string describing the data pulled from the database and the SQL query used.
+  - name: student_data
+    type: dict
+    description: >-
+      A dictionary containing the dataframe and its description. The format is:
+      {
+        "dataframe": <result_dataframe>,
+        "description": <dataframe_description>
+      }
+
+configurations:
+  api_type: openai
+  api_base: 
+  api_key: sk-proj-CJlPobih142REd2ntVo5T3BlbkFJWtqE4ylEC6lnsH08gulm
+  api_version: 
+  deployment_name: gpt-4o-mini
+  db_host: localhost
+  db_port: 3306
+  db_database: student_system
+  db_user: root
+  db_password: ''

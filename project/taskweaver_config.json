@@ -1,5 +1,13 @@
 {
+  "llm.api_type":"openai",
   "llm.api_base": "https://api.openai.com/v1",
-  "llm.api_key": "sk-proj-CJlPobih142REd2ntVo5T3BlbkFJWtqE4ylEC6lnsH08gulm",
-  "llm.model": "gpt-4o-mini"
+  "llm.openai.api_key": "sk-proj-CJlPobih142REd2ntVo5T3BlbkFJWtqE4ylEC6lnsH08gulm",
+  "llm.model": "gpt-4o-mini",
+  "llm.response_format": "json_object",
+  "execution_service.kernel_mode": "local",
+  "execution_service.use_docker": false,
+  "execution_service.timeout": 300,
+  "log.level": "INFO",
+  "planner.max_retry": 3,
+  "human_input_mode": "NEVER"
 }
