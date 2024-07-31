@@ -8,6 +8,7 @@ from taskweaver.llm import QWenService, ZhipuAIService
 from taskweaver.llm.ollama import OllamaService
 from taskweaver.llm.openai import OpenAIService
 from taskweaver.llm.sentence_transformer import SentenceTransformerService
+from taskweaver.llm.google_genai import GoogleGenAIService
 
 IN_GITHUB_ACTIONS = os.getenv("GITHUB_ACTIONS") == "true"
 
@@ -118,3 +119,24 @@ def test_zhipuai_embedding():
     assert len(embedding1) == 2
     assert len(embedding1[0]) == 1024
     assert len(embedding1[1]) == 1024
+
+@pytest.mark.skipif(True, reason="Test doesn't work in Github Actions.")
+def test_google_genai_embedding():
+    app_injector = Injector()
+    app_config = AppConfigSource(
+        config={
+            "llm.embedding_api_type": "google_genai",
+            "llm.embedding_model": "genai-v1",
+            "llm.api_key": "AIzaSyA0fCGtlAyxF_s_dBObsnL70xocI3GJlTE",
+            # need to configure llm.api_key in the config to run this test
+        },
+    )
+    app_injector.binder.bind(AppConfigSource, to=app_config)
+    google_genai_service = app_injector.create_object(GoogleGenAIService)
+
+    text_list = ["This is a test sentence.", "This is another test sentence."]
+    embeddings = google_genai_service.get_embeddings(text_list)
+
+    assert len(embeddings) == 2
+    assert len(embeddings[0]) == 1536  # assuming the embedding size for Google GenAI is 1536
+    assert len(embeddings[1]) == 1536

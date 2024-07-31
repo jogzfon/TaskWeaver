@@ -1,7 +1,5 @@
 {
-  "llm.api_type": "google_genai",
-  "llm.google_genai.api_key": "AIzaSyA0fCGtlAyxF_s_dBObsnL70xocI3GJlTE",
-  "llm.google_genai.model": "gemini-pro",
-  "code_generator.enable_auto_plugin_selection": true,
-  "code_generator.auto_plugin_selection_topk": 2
+  "llm.api_base": "https://api.openai.com/v1",
+  "llm.api_key": "sk-proj-CJlPobih142REd2ntVo5T3BlbkFJWtqE4ylEC6lnsH08gulm",
+  "llm.model": "gpt-4o-mini"
 }
