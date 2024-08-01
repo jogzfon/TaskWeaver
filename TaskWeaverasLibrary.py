@@ -19,7 +19,7 @@ def get_response(session, user_input):
         last_post = post_list[-1]
         # Print only the message from the last post
         print("TaskWeaver: \n" + f"{last_post.get('message', '')}")
-    else:
+    else:   
         print("TaskWeaver: No messages found.")
 
 def main():
