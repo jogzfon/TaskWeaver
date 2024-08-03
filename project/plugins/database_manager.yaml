@@ -1,5 +1,5 @@
 name: database_manager
-enabled: true
+enabled: false
 required: false
 plugin_only: true
 description: This plugin processes database queries using the TestSystem class.

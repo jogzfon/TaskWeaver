@@ -1,0 +1,32 @@
+name: schema_database_manager
+enabled: true
+required: false
+plugin_only: true
+description: This plugin processes user queries about the database schema and provides answers based on the available information.
+examples: |-
+  result = schema_database_manager("Give me the names of the authors")
+
+parameters:
+  - name: message
+    type: str
+    required: true
+    description: The user's question about the database schema.
+
+returns:
+  - name: result
+    type: str
+    description: The answer to the user's question based on the database schema information.
+
+notes: |-
+  - The plugin connects to a MySQL database named "biblio_system" and retrieves schema information.
+  - It uses the GPT-4o mini model to generate answers based on the schema and user's question.
+  - Certain columns are excluded from the schema to focus on relevant information.
+  - Token usage information is printed to the console for monitoring purposes.
+  - Error messages are returned as strings if any issues occur during execution.
+
+dependencies:
+  - taskweaver
+  - tiktoken
+  - mysql-connector-python
+  - langchain
+  - langchain_openai
