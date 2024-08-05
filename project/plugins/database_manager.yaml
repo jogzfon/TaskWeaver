@@ -1,7 +1,7 @@
 name: database_manager
 enabled: false
 required: false
-plugin_only: true
+plugin_only: false
 description: This plugin processes database queries using the TestSystem class.
 examples: |-
   result = database_manager("Give me the firstname and lastname of the first 5 rows")
