@@ -44,7 +44,7 @@ class SchemaDatabaseManager(Plugin):
             - Do not make assumptions or use any external data.
             - Provide a direct answer without additional explanations or step-by-step procedures.
             - If the question cannot be answered with the given schema, clearly state that.
-
+            - Dont show Null and None values
             Answer:"""
             prompt = ChatPromptTemplate.from_template(template)
             
