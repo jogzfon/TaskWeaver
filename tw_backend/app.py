@@ -14,9 +14,10 @@ session = initialize_taskweaver()
 @app.route('/chat', methods=['POST'])
 def chat():
     user_input = request.json.get('message', '')
+    print(f"Received message: {user_input}")
     response = taskweaver_get_response(session, user_input)
-    print(response)
-    return jsonify(response)
+    print(f"Response: {response}")
+    return jsonify({'message': response})
 
 if __name__ == '__main__':
     app.run(debug=True)
