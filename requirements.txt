@@ -25,3 +25,7 @@ vcrpy>=5.0.0
 colorama>=0.4.6
 
 pymysql>=1.0.2
+
+# Schema Plugin related
+langchain-openai>=0.1.19
+mysql-connector>=2.2.9
