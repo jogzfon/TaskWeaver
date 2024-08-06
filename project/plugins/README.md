@@ -163,4 +163,4 @@ You can find more about how plugins are made from TaskWeaver's official document
             ALWAYS is useful for scenarios where you want to ensure human oversight at key points in the process.
 
 - For debugging you can access the project/taskweaver.log for more info
-
+- You can access the markdown files in the `TaskWeaver/website/docs` directory for more details on TaskWeaver's features.
